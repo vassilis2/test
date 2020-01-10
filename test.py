@@ -1,28 +1,24 @@
 from flask import Flask, request, jsonify
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d39dbbabb534efb5f02f54be231863bb486a13de
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
 books = [
-  {
-  'id' : 0,
-  'title' : 'LoR',
-  'author' : 'Tolkin',
-  'description' : 'novel',
-  'ISBN' : '8465-4682-4853-1177'
-}
+#   {
+#   'id' : 0,
+#   'title' : 'LoR',
+#   'author' : 'Tolkin',
+#   'description' : 'novel',
+#   'ISBN' : '8465-4682-4853-1177'
+# }
 ]
+i = 0
 @app.route('/books', methods=['GET', 'POST'])
 def kati():
   if request.method == 'POST':
-    if not books:
-      i = 0
-    else:
-      i = books[-1]['id'] +1
+    if books:
+      global i
+      i = i + 1
     book = {
     # 'id' : books[-1]['id'] +1,
     'id' : i,
@@ -32,7 +28,7 @@ def kati():
     'description' : request.json['description']
     } 
     books.append(book)
-  return jsonify({'books' : books}), 201
+  return jsonify({'books' : books})
 
 @app.route('/books/<int:book_id>', methods=['DELETE'])
 def delete(book_id):
