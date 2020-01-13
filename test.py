@@ -1,20 +1,16 @@
 from flask import Flask, request, jsonify
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d39dbbabb534efb5f02f54be231863bb486a13de
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
 books = [
-  {
-  'id' : 0,
-  'title' : 'LoR',
-  'author' : 'Tolkin',
-  'description' : 'novel',
-  'ISBN' : '8465-4682-4853-1177'
-}
+#   {
+#   'id' : 0,
+#   'title' : 'LoR',
+#   'author' : 'Tolkin',
+#   'description' : 'novel',
+#   'ISBN' : '8465-4682-4853-1177'
+# }
 ]
 @app.route('/books', methods=['GET', 'POST'])
 def kati():
