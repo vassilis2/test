@@ -17,7 +17,7 @@ def listing():
   return jsonify({'books' : books}), 200
 
 @app.route('/books', methods=['POST'])
-def enter():
+def entering():
     if not books:
       i = 0
     else:
@@ -37,7 +37,7 @@ def enter():
 def delete(book_id):
   book = [book for book in books if book['id'] == book_id]
   books.remove(book[0])
-  return "deleted"
+  return "The book {} deleted".format(book), 200
 
 if __name__ == '__main__':
   app.run(debug=True)
