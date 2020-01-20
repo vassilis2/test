@@ -12,13 +12,16 @@ books = [
 #   'ISBN' : '8465-4682-4853-1177'
 # }
 ]
-i = 0
-@app.route('/books', methods=['GET', 'POST'])
-def kati():
-  if request.method == 'POST':
-    if books:
-      global i
-      i = i + 1
+@app.route('/books', methods=['GET'])
+def listing():
+  return jsonify({'books' : books}), 200
+
+@app.route('/books', methods=['POST'])
+def enter():
+    if not books:
+      i = 0
+    else:
+      i = books[-1]['id'] +1
     book = {
     # 'id' : books[-1]['id'] +1,
     'id' : i,
@@ -28,7 +31,7 @@ def kati():
     'description' : request.json['description']
     } 
     books.append(book)
-  return jsonify({'books' : books})
+    return jsonify({'books' : books}), 201
 
 @app.route('/books/<int:book_id>', methods=['DELETE'])
 def delete(book_id):
