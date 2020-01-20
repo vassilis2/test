@@ -34,10 +34,10 @@ def entering():
     return jsonify({'books' : books}), 201
 
 @app.route('/books/<int:book_id>', methods=['DELETE'])
-def delete(book_id):
+def deleting(book_id):
   book = [book for book in books if book['id'] == book_id]
   books.remove(book[0])
-  return "The book {} deleted".format(book), 200
+  return "The book {} deleted".format(book_id), 200
 
 if __name__ == '__main__':
   app.run(debug=True)
