@@ -5,7 +5,6 @@ app.config['JSON_SORT_KEYS'] = False
 
 books = [
 #   {
-#   'id' : 0,
 #   'title' : 'LoR',
 #   'author' : 'Tolkin',
 #   'description' : 'novel',
@@ -18,13 +17,7 @@ def listing():
 
 @app.route('/books', methods=['POST'])
 def entering():
-    if not books:
-      i = 0
-    else:
-      i = books[-1]['id'] +1
     book = {
-    # 'id' : books[-1]['id'] +1,
-    'id' : i,
     'title': request.json['title'],
     'author': request.json['author'],
     'ISBN' : request.json['ISBN'],
@@ -33,11 +26,11 @@ def entering():
     books.append(book)
     return jsonify({'books' : books}), 201
 
-@app.route('/books/<int:book_id>', methods=['DELETE'])
-def deleting(book_id):
-  book = [book for book in books if book['id'] == book_id]
+@app.route('/books/<title>', methods=['DELETE'])
+def deleting(title):
+  book = [book for book in books if book['title'] == title]
   books.remove(book[0])
-  return "The book {} deleted".format(book_id), 200
+  return "The book {} deleted".format(title), 200
 
 if __name__ == '__main__':
   app.run(debug=True)
