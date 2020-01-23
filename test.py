@@ -25,9 +25,9 @@ def updating(title):
   book_to_update = jsonify([book for book in books if book['title'] == title])
   
   incoming_json_data = request.get_json()
+  
   for key in incoming_json_data:
     book[key] = incoming_json_data[key]
-
   return "The book {} updated".format(title), 201
 
 @app.route('/books/<title>', methods=['DELETE'])
