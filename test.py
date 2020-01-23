@@ -28,7 +28,7 @@ def updating(title):
   
   for key in incoming_json_data:
     book[key] = incoming_json_data[key]
-  return "The book {} updated".format(title), 201
+  return "The book {} updated".format(title), 200
 
 @app.route('/books/<title>', methods=['DELETE'])
 def deleting(title):
