@@ -1,40 +1,47 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, json
 
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
-books = [
-#   {
-#   'id' : 0,
-#   'title' : 'LoR',
-#   'author' : 'Tolkin',
-#   'description' : 'novel',
-#   'ISBN' : '8465-4682-4853-1177'
-# }
-]
-@app.route('/books', methods=['GET', 'POST'])
-def kati():
-  if request.method == 'POST':
-    if not books:
-      i = 0
-    else:
-      i = books[-1]['id'] +1
-    book = {
-    # 'id' : books[-1]['id'] +1,
-    'id' : i,
-    'title': request.json['title'],
-    'author': request.json['author'],
-    'ISBN' : request.json['ISBN'],
-    'description' : request.json['description']
-    } 
-    books.append(book)
+books = []
+@app.route('/books', methods=['GET'])
+def listing():
+  return jsonify({'books' : books}), 200
+
+@app.route('/books/<title>', methods=['GET'])
+def get_one(title):
+  if not filter(lambda book: book['title'] == title, books):
+    return "There is no {} book in the list".format(title), 404
+  else:  
+    book = [book for book in books if book['title'] == title]
+    return jsonify(book), 200
+
+@app.route('/books', methods=['POST'])
+def adding():
+  book = request.json
+  books.append(book)
   return jsonify({'books' : books}), 201
 
-@app.route('/books/<int:book_id>', methods=['DELETE'])
-def delete(book_id):
-  book = [book for book in books if book['id'] == book_id]
-  books.remove(book[0])
-  return "deleted"
+@app.route('/books/<title>', methods=['PUT'])
+def updating(title):
+  if filter(lambda book: book['title'] == title, books):
+    incoming_json_data = request.get_json()
+    for key, value in tuple(incoming_json_data.items()):
+      for book in books:
+        if book['title'] == title:
+          book[str(key)] = incoming_json_data.get(key, None)
+    return "The book {} updated".format(title), 200
+  else:
+    return "The book {} isn't in the list".format(title), 404
+
+@app.route('/books/<title>', methods=['DELETE'])
+def deleting(title):
+  if not filter(lambda book: book['title'] == title, books):
+    return "The book {} isn't in the list".format(title), 404
+  else:
+    book = [book for book in books if book['title'] == title]
+    books.remove(book[0])
+    return "The book {} deleted".format(title), 200
 
 if __name__ == '__main__':
   app.run(debug=True)
