@@ -39,7 +39,6 @@ def listing():
     return jsonify(result), 200    
   else: return "There are no books yet", 200
    
-
 @app.route('/books/<id>', methods=['GET'])
 def get_one(id):
   book = Book.query.get(id)
