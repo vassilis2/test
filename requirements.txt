@@ -23,7 +23,7 @@ mongoengine==0.15.0
 mysql-connector==2.2.9
 mysql-connector-python==8.0.18
 mysql-connector-python-rf==2.2.2
-protobuf==3.11.1
+protobuf==3.18.3
 pycparser==2.19
 PyDictionary==1.5.2
 PyJWT==1.7.1
